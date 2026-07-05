@@ -385,6 +385,15 @@ describe("addDeployment", () => {
     expect(result.yaml).toContain("pull_request");
     expect(result.environment).toBe("staging");
   });
+
+  it("reports every Heroku secret referenced by the generated deploy step", () => {
+    const yaml = `name: CI\non: push\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - run: npm test`;
+    const result = addDeployment({ yaml_content: yaml, deploy_target: "heroku", environment: "production" });
+
+    expect(result.required_secrets).toContain("HEROKU_API_KEY");
+    expect(result.required_secrets).toContain("HEROKU_EMAIL");
+    expect(result.yaml).toContain("heroku_email");
+  });
 });
 
 // ============================================================================
