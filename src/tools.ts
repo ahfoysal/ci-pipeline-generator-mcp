@@ -1356,7 +1356,7 @@ const DEPLOY_CONFIGS: Record<DeployTarget, { secrets: string[]; step: (env: Envi
     notes: ["Build and push Docker image to GCR before this step"],
   },
   heroku: {
-    secrets: ["HEROKU_API_KEY"],
+    secrets: ["HEROKU_API_KEY", "HEROKU_EMAIL"],
     step: (env) => ({
       name: `Deploy to Heroku (${env})`,
       uses: "akhileshns/heroku-deploy@v3.13.15",
